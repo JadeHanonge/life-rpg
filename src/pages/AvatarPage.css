@@ -1,0 +1,28 @@
+.avatar-container {
+  display: flex;
+  justify-content: center;   /* centre horizontal */
+  align-items: center;       /* centre vertical */
+  gap: 2rem;
+  margin-top: 2rem;
+  min-height: 400px;         /* assure un espace suffisant pour le centrage */
+}
+
+
+.stats-column {
+  flex: 1;
+}
+
+.avatar-column {
+  flex: 0 0 150px;
+  text-align: center;
+}
+
+
+.skills-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+

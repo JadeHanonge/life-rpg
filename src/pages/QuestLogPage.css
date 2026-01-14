@@ -1,0 +1,25 @@
+.quest-page {
+  max-width: 800px;
+  margin: auto;
+  padding: 1rem;
+}
+
+.quest-section {
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.quest-section h3 {
+  margin-top: 0;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  margin: 0.5rem 0;
+}

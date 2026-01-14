@@ -1,0 +1,36 @@
+.avatar-column {
+  flex: 0 0 150px;
+  text-align: center;
+}
+
+.avatar-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #e0e0ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  margin: auto;
+}
+
+.avatar-level {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.xp-bar-container {
+  width: 120px;
+  height: 12px;
+  background: #ddd;
+  border-radius: 6px;
+  margin: 0.5rem auto;
+  overflow: hidden;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: #4caf50;
+  transition: width 0.5s ease;
+}

@@ -1,84 +1,67 @@
-import { useEffect, useState } from 'react'
-import { loadGame, saveGame } from '../data/saveGame'
+import { useState, useContext } from 'react'
+import { questsData } from '../data/quests'
+import { PlayerContext } from '../context/PlayerContext'
 
-const defaultQuest = {
-  title: 'Live a Richer Life',
-  description: 'Focus on experiences, growth, and meaning.',
-  miniQuests: [
-    { id: 1, text: 'Define my values', done: false, xp: 10 },
-    { id: 2, text: 'Start a creative habit', done: false, xp: 10 },
-    { id: 3, text: 'Plan one meaningful experience', done: false, xp: 10 }
-  ]
-}
 
 export default function QuestLog() {
-  const saved = loadGame()
-  const [quest, setQuest] = useState(saved?.quest || defaultQuest)
-  const [xp, setXp] = useState(saved?.xp || 0)
-
-  useEffect(() => {
-    saveGame({ ...(saved || {}), quest, xp })
-  }, [quest, xp])
-
-  function toggleMiniQuest(id) {
-    let xpChange = 0
-
-    setQuest(q => {
-      const updated = q.miniQuests.map(mq => {
-        if (mq.id === id) {
-          const newDone = !mq.done
-          xpChange = newDone ? mq.xp : -mq.xp
-          return { ...mq, done: newDone }
+  const { player, setPlayer } = useContext(PlayerContext)
+  const [quests, setQuests] = useState((questsData)) 
+  
+  function toggleQuest(type, id) {
+    // On clone les quests et on prépare les updates
+    setQuests(prev => {
+      const updatedType = prev[type].map(q => {
+        if (q.id === id) {
+          const newDone = !q.done
+          const xpChange = newDone ? q.reward.xp : -q.reward.xp
+          const statChange = {}
+          Object.keys(q.reward.stat).forEach(stat => {
+            statChange[stat] = newDone ? q.reward.stat[stat] : -q.reward.stat[stat]
+          })
+  
+          // MAJ du player immédiatement **hors du closure de map**
+          setPlayer(prevPlayer => {
+            const newStats = { ...prevPlayer.stats }
+              Object.keys(statChange).forEach(stat => {
+                newStats[stat] += statChange[stat]/2
+              })
+              const newXp = Math.max(0, prevPlayer.xp + xpChange/2)
+              return { ...prevPlayer, xp: newXp, stats: newStats }
+          })
+  
+          return { ...q, done: newDone }
         }
-        return mq
+        return q
       })
-
-      return { ...q, miniQuests: updated }
+  
+      return { ...prev, [type]: updatedType }
     })
-
-    setXp(prevXp => Math.max(0, prevXp + xpChange))
   }
-
-  function resetXp() {
-    setXp(0)
-  }
+  
+  const questTypes = ['daily', 'weekly', 'main', 'side', 'rest']
 
   return (
     <div className="card">
-      <h2>🏆 Main Quest (Year)</h2>
-      <p><strong>{quest.title}</strong></p>
-      <p>{quest.description}</p>
-
-      <ul>
-        {quest.miniQuests.map(mq => (
-          <li key={mq.id}>
-            <label>
-              <input
-                type="checkbox"
-                checked={mq.done}
-                onChange={() => toggleMiniQuest(mq.id)}
-              />
-              {mq.text}
-            </label>
-          </li>
-        ))}
-      </ul>
-
-      <p>✨ XP: {xp}</p>
-
-      <button
-        onClick={resetXp}
-        style={{
-          marginTop: '1rem',
-          background: '#ffe3e3',
-          border: 'none',
-          borderRadius: '8px',
-          padding: '0.5rem 1rem',
-          cursor: 'pointer'
-        }}
-      >
-        🧪 Reset XP (test)
-      </button>
+      {questTypes.map(type => (
+        <div key={type} className="quest-section">
+          <h3>{type.toUpperCase()}</h3>
+          <ul>
+            {quests[type].map(q => (
+              <li key={q.id}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={q.done}
+                    onChange={() => toggleQuest(type, q.id)}
+                  />
+                  {q.text} ({q.reward.xp} XP)
+                </label>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <p>✨ XP total : {player.xp}</p>
     </div>
   )
 }
