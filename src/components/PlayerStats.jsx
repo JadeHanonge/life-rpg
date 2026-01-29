@@ -14,16 +14,16 @@ export default function PlayerStats() {
   }, []);
 
   if (loading) return <p>Chargement...</p>
-
+  
 
   return (
     <div className="card player-stats">
       <h3>📊 Stats</h3>
 
       <ul>
-        {playerStats.map(([key, value]) => (
-          <li key={key}>
-            {key.charAt(0).toUpperCase() + key.slice(1)}: {value}
+        {playerStats.map(stat => (
+          <li key={stat.name}>
+            {stat.name}: {stat.point}
           </li>
         ))}
       </ul>

@@ -22,3 +22,8 @@ import axiosClient from "./axiosClient"
 export const getPlayerStats = () => {
   return axiosClient.get("/player-stat");
 }
+
+//fetch player's info
+export const getPlayer = () => {
+  return axiosClient.get("/player/1");
+}

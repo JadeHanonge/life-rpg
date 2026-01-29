@@ -6,7 +6,6 @@ import './AvatarPage.css'
 
 export default function AvatarPage() {
   const {player} = useContext(PlayerContext)
-  const skillTypes = ['main', 'passive']
 
   return (
     <div>
