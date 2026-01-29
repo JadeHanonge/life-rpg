@@ -12,6 +12,7 @@ export default function PlayerStats() {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
+  console.log("stat: ",playerStats);
 
   if (loading) return <p>Chargement...</p>
   

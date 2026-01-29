@@ -1,11 +1,9 @@
 import { useContext } from 'react'
 import Avatar from '../components/Avatar'
 import PlayerStats from '../components/PlayerStats'
-import { PlayerContext } from '../context/PlayerContext'
 import './AvatarPage.css'
 
 export default function AvatarPage() {
-  const {player} = useContext(PlayerContext)
 
   return (
     <div>
@@ -16,14 +14,10 @@ export default function AvatarPage() {
           <PlayerStats/>
         </div>
 
-        {/* <div className="avatar-column">
-          <Avatar xp={player.xp}/>
+        <div className="avatar-column">
+          <Avatar/>
         </div>
 
-        <div className="skills-column">
-          <MainSkills main={player.mainSkills}/>
-          <PassiveSkills passive={player.passiveSkills}/>
-        </div> */}
       </div>
     </div>
   )

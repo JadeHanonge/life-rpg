@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react'
-import { questsData } from '../data/quests'
-import { PlayerContext } from '../context/PlayerContext'
+
 
 
 export default function QuestLog() {
