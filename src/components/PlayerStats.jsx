@@ -5,16 +5,20 @@ import { getPlayerStats } from '../services/api';
 export default function PlayerStats() {
   const [playerStats, setPlayerStats] = useState([]);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     getPlayerStats()
       .then(setPlayerStats)
       .catch(console.error)
       .finally(() => setLoading(false));
+
   }, []);
   console.log("stat: ",playerStats);
 
-  if (loading) return <p>Chargement...</p>
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   
 
   return (

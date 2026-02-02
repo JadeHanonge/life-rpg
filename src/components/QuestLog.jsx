@@ -1,66 +1,81 @@
-import { useState, useContext } from 'react'
+import { useState, useEffect } from 'react'
+import { getAllQuests, getPlayer, updateXp, updateStateQuest } from '../services/api'
 
 
 
 export default function QuestLog() {
-  const { player, setPlayer } = useContext(PlayerContext)
-  const [quests, setQuests] = useState((questsData)) 
-  
-  function toggleQuest(type, id) {
-    // On clone les quests et on prépare les updates
-    setQuests(prev => {
-      const updatedType = prev[type].map(q => {
-        if (q.id === id) {
-          const newDone = !q.done
-          const xpChange = newDone ? q.reward.xp : -q.reward.xp
-          const statChange = {}
-          Object.keys(q.reward.stat).forEach(stat => {
-            statChange[stat] = newDone ? q.reward.stat[stat] : -q.reward.stat[stat]
-          })
-  
-          // MAJ du player immédiatement **hors du closure de map**
-          setPlayer(prevPlayer => {
-            const newStats = { ...prevPlayer.stats }
-              Object.keys(statChange).forEach(stat => {
-                newStats[stat] += statChange[stat]/2
-              })
-              const newXp = Math.max(0, prevPlayer.xp + xpChange/2)
-              return { ...prevPlayer, xp: newXp, stats: newStats }
-          })
-  
-          return { ...q, done: newDone }
-        }
-        return q
-      })
-  
-      return { ...prev, [type]: updatedType }
-    })
+  const [quests, setQuests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [player, setPlayer] = useState([]);
+  const [render, setRender] = useState(false);
+
+  useEffect(() => {
+    getAllQuests()
+      .then(setQuests)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    getPlayer()
+      .then(setPlayer)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  const p = player?.[0];
+
+  console.log("quest: ", quests);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
-  
-  const questTypes = ['daily', 'weekly', 'main', 'side', 'rest']
+
+
+  function toggleQuest(id) {
+    
+    quests.forEach(q => {
+      if(q.id == id){
+        let state = false;
+        if(!q.done){
+          updateStateQuest(q.id, true)
+          state = true;
+          updateXp(1, p.xp+q.rewards.xp);
+        }else{
+          updateStateQuest(q.id, false);
+          state = false;
+          updateXp(1, p.xp-q.rewards.xp);
+        }
+
+        q.done = state;
+        
+        
+      }
+    });
+    
+    //rereder the component to see the changement 
+    setRender(prev => !prev);
+      
+  }
 
   return (
     <div className="card">
-      {questTypes.map(type => (
-        <div key={type} className="quest-section">
-          <h3>{type.toUpperCase()}</h3>
-          <ul>
-            {quests[type].map(q => (
-              <li key={q.id}>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={q.done}
-                    onChange={() => toggleQuest(type, q.id)}
-                  />
-                  {q.text} ({q.reward.xp} XP)
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-      <p>✨ XP total : {player.xp}</p>
+
+      <ul>
+        {quests.map(q => (
+          <li key={q.id}>
+            <label>
+              <input
+                type="checkbox"
+                checked={q.done}
+                onChange={() => toggleQuest(q.id)}
+              />
+              {q.quest_name}
+            </label>
+            <p>{q.rewards.xp}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }

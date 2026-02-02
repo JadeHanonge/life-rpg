@@ -5,18 +5,24 @@ import { getPlayer } from '../services/api';
 
 export default function Avatar() {
     const [player, setPlayer] = useState([]);
+    const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
         getPlayer()
             .then(setPlayer)
             .catch(console.error)
+            .finally(() => setLoading(false));
     }, []);
 
     console.log("player: ", player);
 
     const info = player?.[0];
     console.log("info: ",info);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
     
 
     return (
