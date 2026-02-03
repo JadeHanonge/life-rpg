@@ -14,7 +14,7 @@ export default function PlayerStats() {
       .finally(() => setLoading(false));
 
   }, []);
-  console.log("stat: ",playerStats);
+  //console.log("stat: ",playerStats);
 
   if (loading) {
     return <div>Loading...</div>;

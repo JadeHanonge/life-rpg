@@ -15,10 +15,10 @@ export default function Avatar() {
             .finally(() => setLoading(false));
     }, []);
 
-    console.log("player: ", player);
+    //console.log("player: ", player);
 
     const info = player?.[0];
-    console.log("info: ",info);
+    //console.log("info: ",info);
 
     if (loading) {
         return <div>Loading...</div>;
