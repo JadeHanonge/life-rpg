@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import './Avatar.css'
-import { getPlayer } from '../services/api';
+import { getPlayer, updateLevel } from '../services/api';
 
 
 export default function Avatar() {
     const [player, setPlayer] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [render, setRender] = useState(false);
 
 
     useEffect(() => {
@@ -19,10 +20,21 @@ export default function Avatar() {
 
     const info = player?.[0];
     //console.log("info: ",info);
+    function levelUp(){
+        if(info.xp> info.max_xp){
+            updateLevel(1, info.level+1, info.max_xp+100);
+            info.max_xp += 100;
+            info.level++;
+        }
+        
+
+    }
 
     if (loading) {
         return <div>Loading...</div>;
     }
+
+    levelUp();
     
 
     return (
@@ -36,10 +48,10 @@ export default function Avatar() {
                 <div className="xp-bar-container">
                     <div
                         className="xp-bar-fill"
-                        style={{ width: `${(info.xp / 100) * 100}%` }}
+                        style={{ width: `${(info.xp / info.max_xp) * 100}%` }}
                     ></div>
                 </div>
-                <p>{info.xp} / 100 XP</p>
+                <p>{info.xp} / {info.max_xp} XP</p>
 
 
             </div>

@@ -38,3 +38,13 @@ export const getPlayer = () => {
 export const updateXp = (playerId,newXp) => {
   return axiosClient.put(`/updateXp/${playerId}`, {xp: newXp});
 }
+
+//update level player
+export const updateLevel = (playerId,newLevel,newMaxXp) => {
+  return axiosClient.put(`/updatePlayerLevel/${playerId}`, {level: newLevel, maxXp: newMaxXp});
+}
+
+//update stat point
+export const updateStatPoint = (playerId, newPoint, statId) => {
+  return axiosClient.put(`/updateStat/${playerId}`, {point: newPoint, stat_id: statId});
+}
