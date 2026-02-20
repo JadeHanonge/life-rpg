@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import Avatar from '../components/Avatar'
 import PlayerStats from '../components/PlayerStats'
 import './AvatarPage.css'
+import Navbar from '../components/Navbar'
 
 export default function AvatarPage() {
 

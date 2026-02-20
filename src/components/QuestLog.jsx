@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { getAllQuests, getPlayer, updateXp, updateStateQuest } from '../services/api'
-
+import { getAllQuests, getPlayer, updateXp, updateStateQuest, deleteQuests } from '../services/api'
+import './AddQuestForm.css'
 
 
 export default function QuestLog() {
@@ -36,29 +36,47 @@ export default function QuestLog() {
 
     quests.forEach(q => {
       if (q.id == id) {
-        //console.log("id quest: ", q.id, "quest xp: ", q.rewards.xp, "player xp: ", p.xp);
-
+        console.log("id quest: ", q.id, "quest xp: ", q.rewards.xp, "player xp: ", p.xp);
+        const date = new Date().toISOString().split("T")[0];
+        console.log("date: ", date);
+        const playerxp = Number(p.xp);
+        const questXp = Number(q.rewards.xp)        
         //if quest done add xp if undone substract xp
         if (!q.done) {
           //update data in database
-          updateStateQuest(q.id, true)
-          updateXp(1, p.xp + q.rewards.xp);
+          updateStateQuest(q.id, true, date)
+          updateXp(1, playerxp + questXp);
 
           //update data in component
           q.done = true;
-          p.xp += q.rewards.xp;
+          p.xp = playerxp + questXp;
         } else {
-          updateStateQuest(q.id, false);
-          updateXp(1, p.xp - q.rewards.xp);
+          updateStateQuest(q.id, false, date);
+          updateXp(1, playerxp - questXp);
           q.done = false;
-          p.xp -= q.rewards.xp;
+          p.xp = playerxp - questXp;
         }
+        console.log("player xp after thing : ", p.xp);
+        
 
       }
     });
 
-    //rerender the component to see the changement 
+    //rerender the component to see the changement (not sure if it actually works)
     setRender(prev => !prev);
+
+  }
+
+  function toggleDeleteQuest(id) {
+
+    //create a new array to render
+    setQuests(quest =>
+      quest.filter(quest => quest.id !== id)
+    );
+
+    //delete the quest in the bdd
+    deleteQuests(id);
+    //console.log(`quest ${id} is delete`);
 
   }
 
@@ -82,11 +100,14 @@ export default function QuestLog() {
     return quests.filter(q => q.quest_type === "rest");
   }
 
-const daily = getDailyQuests();
-const weekly = getWeeklyQuests();
-const main = getMainQuests();
-const side = getSideQuests();
-const rest = getRestQuests();
+  const daily = getDailyQuests();
+  const weekly = getWeeklyQuests();
+  const main = getMainQuests();
+  const side = getSideQuests();
+  const rest = getRestQuests();
+
+  console.log(`daily: ${daily}, weekly: ${weekly}, main: ${main}, side: ${side}, rest: ${rest}`);
+
 
 
 
@@ -106,6 +127,7 @@ const rest = getRestQuests();
               {d.quest_name}
             </label>
             <p>{d.rewards.xp}</p>
+            <button onClick={() => toggleDeleteQuest(d.id)}>DELETE</button>
           </li>
         ))}
       </ul>
@@ -122,6 +144,7 @@ const rest = getRestQuests();
               {d.quest_name}
             </label>
             <p>{d.rewards.xp}</p>
+            <button onClick={() => toggleDeleteQuest(d.id)}>DELETE</button>
           </li>
         ))}
       </ul>
@@ -138,6 +161,7 @@ const rest = getRestQuests();
               {d.quest_name}
             </label>
             <p>{d.rewards.xp}</p>
+            <button onClick={() => toggleDeleteQuest(d.id)}>DELETE</button>
           </li>
         ))}
       </ul>
@@ -154,6 +178,7 @@ const rest = getRestQuests();
               {d.quest_name}
             </label>
             <p>{d.rewards.xp}</p>
+            <button onClick={() => toggleDeleteQuest(d.id)}>DELETE</button>
           </li>
         ))}
       </ul>
@@ -170,6 +195,7 @@ const rest = getRestQuests();
               {d.quest_name}
             </label>
             <p>{d.rewards.xp}</p>
+            <button onClick={() => toggleDeleteQuest(d.id)}>DELETE</button>
           </li>
         ))}
       </ul>

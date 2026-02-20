@@ -7,6 +7,7 @@ export default function Avatar() {
     const [player, setPlayer] = useState([]);
     const [loading, setLoading] = useState(true);
     const [render, setRender] = useState(false);
+    
 
 
     useEffect(() => {
@@ -18,8 +19,10 @@ export default function Avatar() {
 
     //console.log("player: ", player);
 
+    //met le player dans un objet (recus dans 1 tableau de 1 seul element)
     const info = player?.[0];
     //console.log("info: ",info);
+
     function levelUp(){
         if(info.xp> info.max_xp){
             updateLevel(1, info.level+1, info.max_xp+100);

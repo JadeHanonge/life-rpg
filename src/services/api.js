@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosClient from "./axiosClient"
 
 
@@ -14,8 +15,28 @@ export const getAllQuests = () => {
   return axiosClient.get("/quests");
 }
 
-export const updateStateQuest = (questId, state) => {
-  return axiosClient.put(`/updateStateQuest/${questId}`, {done: state});
+export const getQuestType = () => {
+  return axiosClient.get("/questType");
+}
+
+export const getStepQuest = (questId) => {
+  return axiosClient.get(`/questStep/${questId}`);
+}
+
+export const updateStateQuest = (questId, state, newDate) => {
+  return axiosClient.put(`/updateStateQuest/${questId}`, {done: state, date: newDate});
+}
+
+export const addQuest = (newname, newtypeQuestId, newRewards ) => {
+  return axiosClient.post(`/addQuest`, {name:newname, typeQuestId:newtypeQuestId, rewards: newRewards})
+}
+
+export const addStepQuest = (questId, newStep) => {
+  return axiosClient.post(`/addStepQuest/${questId}`, {step:newStep});
+}
+
+export const deleteQuests = (questId) => {
+  return axiosClient.delete(`/deleteQuest/${questId}`);
 }
 
 
