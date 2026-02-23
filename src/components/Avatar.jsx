@@ -6,10 +6,7 @@ import { getPlayer, updateLevel } from '../services/api';
 export default function Avatar() {
     const [player, setPlayer] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [render, setRender] = useState(false);
     
-
-
     useEffect(() => {
         getPlayer()
             .then(setPlayer)
@@ -17,11 +14,9 @@ export default function Avatar() {
             .finally(() => setLoading(false));
     }, []);
 
-    //console.log("player: ", player);
 
     //met le player dans un objet (recus dans 1 tableau de 1 seul element)
     const info = player?.[0];
-    //console.log("info: ",info);
 
     function levelUp(){
         if(info.xp> info.max_xp){
@@ -29,8 +24,6 @@ export default function Avatar() {
             info.max_xp += 100;
             info.level++;
         }
-        
-
     }
 
     if (loading) {
@@ -39,11 +32,9 @@ export default function Avatar() {
 
     levelUp();
     
-
     return (
         <div>
             <h2 style={{ textAlign: 'center' }}>🧍{info.pseudo} </h2>
-
             <div className="avatar-center">
                 <div className="avatar-circle">🙂</div>
 
@@ -55,10 +46,7 @@ export default function Avatar() {
                     ></div>
                 </div>
                 <p>{info.xp} / {info.max_xp} XP</p>
-
-
             </div>
-
         </div>
     )
 }

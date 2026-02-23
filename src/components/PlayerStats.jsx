@@ -7,7 +7,6 @@ export default function PlayerStats() {
   const [loading, setLoading] = useState(true);
   const [render, setRender] = useState(false);
 
-
   useEffect(() => {
     getPlayerStats()
       .then(setPlayerStats)
@@ -15,8 +14,6 @@ export default function PlayerStats() {
       .finally(() => setLoading(false));
 
   }, []);
-  //console.log("stat: ",playerStats);
-
 
   function togglePlus(id) {
     playerStats.forEach(stat => {
@@ -38,8 +35,6 @@ export default function PlayerStats() {
         if (stat.point > 0) {
           updateStatPoint(1, stat.point - 1, stat.id)
           stat.point--;
-
-
         }
       }
     })
@@ -54,25 +49,21 @@ export default function PlayerStats() {
   return (
     <div className="card player-stats">
       <h3>📊 Stats</h3>
-
       <ul>
         {playerStats.map(stat => (
           <li key={stat.name}>
             {stat.name}: {stat.point}
             <div>
-
               <input
                 type="button"
                 value='+'
                 onClick={() => togglePlus(stat.id)}
               />
-
               <input
                 type="button"
                 value='-'
                 onClick={() => toggleMinus(stat.id)}
               />
-
             </div>
           </li>
         ))}

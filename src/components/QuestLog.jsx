@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getAllQuests, getPlayer, updateXp, updateStateQuest, deleteQuests, getStepQuest } from '../services/api'
+import { getAllQuests, getPlayer, updateXp, updateStateQuest, deleteQuests} from '../services/api'
 import './AddQuestForm.css'
 
 
@@ -8,8 +8,6 @@ export default function QuestLog() {
   const [loading, setLoading] = useState(true);
   const [player, setPlayer] = useState([]);
   const [render, setRender] = useState(false);
-  const [stepQuest, setStepQuest] = useState({});
-  const [questId, setQuestId] = useState(null);
 
   useEffect(() => {
     getAllQuests()
@@ -25,43 +23,11 @@ export default function QuestLog() {
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    if (!questId) return;
-
-    getStepQuest(questId)
-      .then(steps => {
-        setStepQuest(prev => ({
-          ...prev,
-          [questId]: steps,
-        }));
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [questId]);
-
-
-  function ToggleGetStepQuest(quest) {
-    setQuestId(prev => (prev === quest ? null : quest));
-    console.log("questId : ", quest);
-
-  }
-
-  const p = player?.[0];
-
-  console.log("quest: ", quests);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-
   function toggleQuest(id) {
 
     quests.forEach(q => {
       if (q.id == id) {
-        console.log("id quest: ", q.id, "quest xp: ", q.rewards.xp, "player xp: ", p.xp);
         const date = new Date().toISOString().split("T")[0];
-        console.log("date: ", date);
         const playerxp = Number(p.xp);
         const questXp = Number(q.rewards.xp)
         //if quest done add xp if undone substract xp
@@ -79,9 +45,6 @@ export default function QuestLog() {
           q.done = false;
           p.xp = playerxp - questXp;
         }
-        console.log("player xp after thing : ", p.xp);
-
-
       }
     });
 
@@ -99,8 +62,6 @@ export default function QuestLog() {
 
     //delete the quest in the bdd
     deleteQuests(id);
-    //console.log(`quest ${id} is delete`);
-
   }
 
   function getDailyQuests() {
@@ -129,11 +90,6 @@ export default function QuestLog() {
   const side = getSideQuests();
   const rest = getRestQuests();
 
-  console.log(`daily: ${daily}, weekly: ${weekly}, main: ${main}, side: ${side}, rest: ${rest}`);
-
-
-
-
   return (
     <div className="card">
 
@@ -150,18 +106,6 @@ export default function QuestLog() {
               {d.quest_name}
             </label>
             <p>{d.rewards.xp}</p>
-            <button onClick={() => ToggleGetStepQuest(d.id)}>
-              +
-            </button>
-            {questId === d.id && (
-              <div className='steps'>
-                {loading && <p>loading...</p>}
-
-                {stepQuest[d.id]?.map(step => (
-                  <p key={step.id}>{step.step}</p>
-                ))}
-              </div>
-            )}
             <button onClick={() => toggleDeleteQuest(d.id)}>DELETE</button>
           </li>
         ))}
@@ -196,18 +140,6 @@ export default function QuestLog() {
               {d.quest_name}
             </label>
             <p>{d.rewards.xp}</p>
-            <button onClick={() => ToggleGetStepQuest(d.id)}>
-              +
-            </button>
-            {questId === d.id && (
-              <div className='steps'>
-                {loading && <p>loading...</p>}
-
-                {stepQuest[d.id]?.map(step => (
-                  <p key={step.id}>{step.step}</p>
-                ))}
-              </div>
-            )}
             <button onClick={() => toggleDeleteQuest(d.id)}>DELETE</button>
           </li>
         ))}

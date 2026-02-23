@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import AvatarPage from './pages/AvatarPage'
 import QuestLogPage from './pages/QuestLogPage'
-import { useEffect, useState } from "react"
+import {useState } from "react"
 
 export default function App() {
 

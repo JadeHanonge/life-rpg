@@ -22,8 +22,6 @@ export default function AddQuestForm() {
             .finally(() => setLoading(false));
     }, []);
 
-    //console.log("quest type: ", questType);
-
 
     function addQuestbdd(formData) {
         const name = formData.get("name");
