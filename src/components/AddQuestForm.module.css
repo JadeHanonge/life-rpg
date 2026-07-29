@@ -60,13 +60,11 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.submit:hover {
   background: #b28566;
 }
-
 .card {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
   padding: 16px;
   font-family: system-ui, sans-serif;
@@ -133,4 +131,4 @@ button:hover {
 
 .card button:hover {
   text-decoration: underline;
-}
+} 

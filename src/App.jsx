@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import AvatarPage from './pages/AvatarPage'
 import QuestLogPage from './pages/QuestLogPage'
+import AddQuestPage from './pages/AddQuestPage'
 import { useEffect, useState } from "react"
 
 export default function App() {
@@ -39,11 +40,13 @@ export default function App() {
         <nav className="nav">
           <Link to="/">🧍 Avatar</Link>
           <Link to="/quests">🏆 Quests</Link>
+          <Link to="/add-quest">+ Quest</Link>
         </nav>
 
         <Routes>
           <Route path="/" element={<AvatarPage />} />
           <Route path="/quests" element={<QuestLogPage />} />
+          <Route path="/add-quest" element={<AddQuestPage/>} />
         </Routes>
       </div>
     )

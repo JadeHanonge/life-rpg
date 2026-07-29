@@ -1,14 +1,15 @@
-import QuestLog from '../components/QuestLog'
 import AddQuestForm from '../components/AddQuestForm'
 import Navbar from '../components/Navbar'
 import AddStepQuestForm from '../components/AddStepQuestForm'
 
-export default function QuestLogPage() {
+export default function AddQuestPage() {
 
   return (
     <div className="quest-page">
-      <h2>🏆 Quests</h2>
-      <QuestLog/>    
+      <h2> Add your Quest !</h2>
+      <AddQuestForm/>
+      <AddStepQuestForm/>
+      
     </div>
   )
 }

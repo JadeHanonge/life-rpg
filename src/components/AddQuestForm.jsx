@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { getQuestType, getPlayerStats, addQuest } from "../services/api";
-import './AddQuestForm.css'
+import AddQuestStyles from './AddQuestForm.module.css'
 
 export default function AddQuestForm() {
     const [questType, setQuestType] = useState([]);
@@ -64,7 +64,7 @@ export default function AddQuestForm() {
                 </select>
                 <input name="statPoint"/>
             </div>
-            <button type="submit">ADD</button>
+            <button className={AddQuestStyles.submit} type="submit">ADD</button>
         </form>
     )
 
