@@ -1,16 +1,42 @@
-# React + Vite
+# Life RPG 🎮
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application front-end en **React** transformant l'organisation de sa vie quotidienne en jeu vidéo : les tâches deviennent des **quêtes**, complétées pour gagner de l'**XP** et monter en **niveau**.
 
-Currently, two official plugins are available:
+> Interface du projet [life-rpg-api](https://github.com/JadeHanonge/life-rpg-api) (back-end Node.js/Express + MySQL). Projet personnel, encore en développement actif.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Fonctionnalités
 
-## React Compiler
+- ✅ Affichage des quêtes
+- ✅ Création de nouvelles quêtes
+- 🚧 Suivi de la progression du joueur (XP, niveau) — à venir côté interface
+- 🚧 Compétences (skills) — à venir
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack technique
 
-## Expanding the ESLint configuration
+- **Front-end :** React, Vite, JavaScript
+- **Linting :** ESLint
+- **API consommée :** [life-rpg-api](https://github.com/JadeHanonge/life-rpg-api)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Installation
+
+```bash
+git clone https://github.com/JadeHanonge/life-rpg.git
+cd life-rpg
+npm install
+npm run dev
+```
+
+L'application nécessite que l'API back-end ([life-rpg-api](https://github.com/JadeHanonge/life-rpg-api)) tourne en parallèle pour fonctionner.
+
+## Statut du projet
+
+Le cœur de l'expérience (affichage et création de quêtes) est fonctionnel. Le suivi du joueur (XP, niveau) et les compétences sont encore en cours d'intégration côté interface. Le développement se poursuit — voir les [issues ouvertes](https://github.com/JadeHanonge/life-rpg/issues) pour le détail des prochaines étapes.
+
+## Projet lié
+
+Back-end : [life-rpg-api](https://github.com/JadeHanonge/life-rpg-api) (Node.js/Express + MySQL)
+
+## Auteure
+
+**Jade Hanonge**
+[GitHub](https://github.com/JadeHanonge)
